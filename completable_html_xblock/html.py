@@ -41,6 +41,7 @@ class CompletableHTML5XBlock(CompletableXBlockMixin, HTML5XBlock):
         scope=Scope.settings
     )
     has_custom_completion = True
+    has_score = True
     editable_fields = ('display_name', 'editor')
 
     @staticmethod
@@ -60,9 +61,19 @@ class CompletableHTML5XBlock(CompletableXBlockMixin, HTML5XBlock):
 
         return frag
 
+    def publish_grade(self, grade=1.0):
+        self.runtime.publish(self, 'grade', { 'value': grade, 'max_value': 1.0 })
+
     @XBlock.json_handler
     def complete(self, _data, _suffix=''):
         """
         Use new completion API for marking the block as completed.
         """
         self.emit_completion(1.0)
+
+    @XBlock.json_handler
+    def set_score(self, _data, _suffix=''):
+        """
+        Use grading API for marking the block as scored.
+        """
+        self.publish_grade(1.0)

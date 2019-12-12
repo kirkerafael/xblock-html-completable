@@ -7,4 +7,9 @@ function HTML5CompletionXBlock(runtime, element, data) {
         var handlerUrl = runtime.handlerUrl(element, 'complete');
         $.post(handlerUrl, JSON.stringify(data));
     };
+
+    element.submitGrade = function () {
+        var handlerUrl = runtime.handlerUrl(element, 'set_score');
+        $.post(handlerUrl, JSON.stringify(data));
+    };
 }
